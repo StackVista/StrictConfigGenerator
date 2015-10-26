@@ -1,5 +1,6 @@
 import sbt.Keys._
 
+isSnapshot := true
 
 
 libraryDependencies += "org.scalaz" %% "scalaz-core" % "7.1.4"
