@@ -81,11 +81,11 @@ class ConfigGenerator {
       variables       <- parseVariables(variablesFile)
       allVariables     = variables.entrySet.map(_.getKey)
       allUsedVariables = getFileTree(templateFile).flatMap(getAllUsedVariables).toSet
-      unReferencedVariables = allUsedVariables.filterNot(variables.hasPath)
-      unUsedVariables       = allVariables.diff(allUsedVariables)
+      unDefinedVariables = allUsedVariables.filterNot(variables.hasPath)
+      unUsedVariables     = allVariables.diff(allUsedVariables)
       _ <-
-      (check(unReferencedVariables.nonEmpty, s"Variables: '${unReferencedVariables.mkString(",")}' are not referenced!") |@|
-        check(unUsedVariables.nonEmpty, s"Variables: '${unUsedVariables.mkString(",")}' are not provided!")) { (_, _) =>
+      (check(unDefinedVariables.nonEmpty, s"Variables: '${unDefinedVariables.mkString(",")}' are not defined!") |@|
+        check(unUsedVariables.nonEmpty, s"Variables: '${unUsedVariables.mkString(",")}' are not used!")) { (_, _) =>
           List[File]()
         }
     } yield getFileTree(templateFile).map { configTemplate =>
