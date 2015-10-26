@@ -15,7 +15,7 @@ val scalaSettings = Seq(
 val projectSettings = Seq(
   name := "config-generator",
   organization := "com.stackstate",
-  version := "1.0"
+  version := "1.1"
 )
 
 val dependencies = {
