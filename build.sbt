@@ -16,7 +16,9 @@ val scalaSettings = Seq(
 val projectSettings = Seq(
   name := "config-generator",
   organization := "com.stackstate",
-  version := "1.1"
+  version := "0.0.3-SNAPSHOT",
+  publishTo := Some("Artifactory Realm" at "http://192.168.2.58:8081/artifactory/libs-snapshot-local"),
+  credentials += Credentials(Path.userHome / ".sbt" / "artifactory.credentials")
 )
 
 val dependencies = {
