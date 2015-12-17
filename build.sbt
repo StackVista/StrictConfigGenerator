@@ -36,6 +36,7 @@ val dependencies = {
 scalaSource in Compile := baseDirectory.value / "src"
 
 lazy val root = project.in(file("."))
+  .enablePlugins(GitVersioning)
   .settings(projectSettings:_*)
   .settings(scalaSettings:_*)
   .settings(dependencies)
