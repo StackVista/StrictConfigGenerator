@@ -63,7 +63,9 @@ class ConfigGenerator {
   val EOL = "\n"
 
   def getFileTree(f: File): List[File] =
-    if (f.isDirectory) f.listFiles.toList
+    if (f.isHidden)
+      List.empty
+    else if (f.isDirectory) f.listFiles.toList.flatMap(getFileTree).filter(!_.isHidden)
     else List(f)
 
   private def check(b : Boolean, failMsg : String) : ValidationNel[String, Unit] =
@@ -89,7 +91,15 @@ class ConfigGenerator {
           List[File]()
         }
     } yield getFileTree(templateFile).map { configTemplate =>
-      val configFile = new File(outputPath.getAbsolutePath + File.separatorChar + configTemplate.getName)
+
+      val relativePath = {
+        if (templateFile.isDirectory)
+          configTemplate.getCanonicalPath.substring(templateFile.getCanonicalPath.length)
+        else
+          File.separatorChar + templateFile.getName
+      }
+
+      val configFile = new File(outputPath.getAbsolutePath + relativePath)
       generateConfigFile(variables, configTemplate, configFile)
       configFile
     }
