@@ -2,8 +2,8 @@ StrictConfigGenerator
 =====================
 
 The generator transforms template file(s) into configuration files using variable values from a variable file.
-Every variable in the template file(s) must present in the variables file.
-Every variable in the variables file must be referenced at least once.
+Every variable in the template file(s) must be present in the variables file.
+Every variable in the variables file must be referenced at least once. These two rules are why it is called strict. 
 
 Command line parameters: <template file or directory> <variables file> <output dir>
 
