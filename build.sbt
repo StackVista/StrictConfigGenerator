@@ -2,13 +2,8 @@ import sbt.Keys._
 
 isSnapshot := true
 
-libraryDependencies += "org.scalaz" %% "scalaz-core" % "7.1.4"
-libraryDependencies += "com.typesafe" % "config" % "1.3.0"
-libraryDependencies += "org.scala-lang" % "scala-compiler" % "2.11.7"
-
 val scalaSettings = Seq(
-  scalaVersion := "2.11.7"
-  //, scalacOptions += "-Ymacro-debug-lite"
+  crossScalaVersions := Seq("2.10.6", "2.11.7")
 )
 
 val projectSettings = Seq(
@@ -25,9 +20,8 @@ val projectSettings = Seq(
 
 val dependencies = {
   libraryDependencies ++= Seq(
-    "org.scalaz" %% "scalaz-core" % "7.1.4",
-    "com.typesafe" % "config" % "1.3.0",
-    "org.scala-lang" % "scala-compiler" % "2.11.7"
+    "org.scalaz" %% "scalaz-core" % "7.2.7",
+    "com.typesafe" % "config" % "1.3.0"
   )
 }
 

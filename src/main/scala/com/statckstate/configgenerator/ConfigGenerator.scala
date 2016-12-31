@@ -1,13 +1,14 @@
 package com.stackstate.configgenerator
 
 import java.io.File
+import java.nio.file.Files
 import com.stackstate.configgenerator.ConfigGenerator.GeneratedConfigFiles
 import com.typesafe.config.Config
 import com.typesafe.config.ConfigFactory
 import com.typesafe.config.ConfigException
 
-import _root_.scalaz.Failure
-import _root_.scalaz.Success
+import scalaz.Failure
+import scalaz.Success
 import scala.collection.JavaConversions._
 import scalaz._
 import scalaz.syntax.applicative._
@@ -51,7 +52,7 @@ object ConfigGenerator extends App {
 
   new ConfigGenerator().generateConfig(templateFile, variablesFile, outputPath) match {
     case Failure(e) =>
-      println(s"Errors:\n${e.list.mkString("\n")}")
+      println(s"Errors:\n${e.list.toList.mkString("\n")}")
       System.exit(3)
     case Success(generatedFiles) =>
       println(s"Config generated: ${generatedFiles.map(_.getName).mkString(", ")}")
@@ -110,7 +111,7 @@ class ConfigGenerator {
   def generateConfigFile(variables : Config, configTemplate : File, configFile: File) : Unit = {
     configFile.getParentFile.mkdirs()
     if (!configFile.exists) configFile.createNewFile()
-    scala.tools.nsc.io.File(configFile).writeAll(generateConfigFile(variables, configTemplate).mkString(EOL))
+    Files.write(configFile.toPath, generateConfigFile(variables, configTemplate).mkString(EOL).getBytes("utf-8"))
   }
 
   def generateConfigFile(variables : Config, configTemplate : File) : Iterator[String] = {
